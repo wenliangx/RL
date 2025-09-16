@@ -8,9 +8,13 @@ class __AgentBase__(ABC):
         self.action_count = np.zeros(self.k)
 
     @abstractmethod
-    def select_action(self, **kwargs) -> np.intp:
+    def select_action(self, **kwargs) -> int:
         pass
 
-    @abstractmethod
     def update_estimation(self, action, reward, **kwargs) -> None:
-        pass
+        self.action_count[action] += 1
+        alpha = kwargs.get('alpha', None)
+        if alpha is not None:
+            self.q_estimation[action] += alpha * (reward - self.q_estimation[action])
+        else:
+            self.q_estimation[action] += (reward - self.q_estimation[action]) / self.action_count[action]

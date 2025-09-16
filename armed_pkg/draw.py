@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def drawAverageRewards(rewards: np.ndarray, num_episodes: int, labels: list, xlim=None, ylim=None):
+def drawAverageRewards(rewards: np.ndarray, num_episodes: int, labels: list, xlim=None, ylim=None, save_path='average_reward.png'):
     if rewards.shape[1] != len(labels):
         raise ValueError("Input lists must have the same length.")
     for i, label in enumerate(labels):
@@ -14,10 +14,10 @@ def drawAverageRewards(rewards: np.ndarray, num_episodes: int, labels: list, xli
     plt.ylabel('Average Reward')
     plt.title('Average Reward over Time')
     plt.legend()  # 添加这一行显示label
-    plt.savefig('average_reward.png')
+    plt.savefig(save_path)
     plt.close()
 
-def drawAverageBestOption(best_options: np.ndarray, num_episodes: int, labels: list, xlim=None, ylim=None):
+def drawAverageBestOption(best_options: np.ndarray, num_episodes: int, labels: list, xlim=None, ylim=None, save_path='average_best_option.png'):
     if best_options.shape[1] != len(labels):
         raise ValueError("Input lists must have the same length.")
     for i, label in enumerate(labels):
@@ -30,5 +30,5 @@ def drawAverageBestOption(best_options: np.ndarray, num_episodes: int, labels: l
     plt.ylabel('Average Best Option')
     plt.title('Average Best Option over Time')
     plt.legend()  # 添加这一行显示label
-    plt.savefig('average_best_option.png')
+    plt.savefig(save_path)
     plt.close()

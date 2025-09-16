@@ -21,11 +21,11 @@ class GradientAgent(__AgentBase__):
 import torch
 from .__agent_base__ import __AgentBaseTorch__
 class GradientAgentTorch(__AgentBaseTorch__):
-    def __init__(self, k=10, num_env=10, initial=0, alpha=0.1, baseline=True, device='cpu'):
-        super().__init__(k=k, num_env=num_env, initial=initial)
+    def __init__(self, k=10, env_num=10, initial=0, alpha=0.1, baseline=True, device='cpu'):
+        super().__init__(k=k, env_num=env_num, initial=initial)
         self.alpha = alpha
         self.baseline = baseline
-        self.gradient_action_selection = GradientActionSelectionTorch(k=k, num_env=num_env, alpha=alpha, baseline=baseline, device=device)
+        self.gradient_action_selection = GradientActionSelectionTorch(k=k, env_num=env_num, alpha=alpha, baseline=baseline, device=device)
         self.device = device
 
     def select_action(self, **kwargs) -> torch.Tensor:

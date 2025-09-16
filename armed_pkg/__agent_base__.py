@@ -22,15 +22,15 @@ class __AgentBase__(ABC):
             self.q_estimation[action] += (reward - self.q_estimation[action]) / self.action_count[action]
 
 class __AgentBaseTorch__(ABC):
-    def __init__(self, k=10, num_env=10, initial=0, device='cuda'):
+    def __init__(self, k=10, env_num=10, initial=0, device='cuda'):
         self.k = k
-        self.num_env = num_env
+        self.env_num = env_num
         self.initial = initial
         self.device = device
         self.q_estimation = torch.full(
-            (self.num_env, self.k), self.initial, device=self.device, dtype=torch.float
+            (self.env_num, self.k), self.initial, device=self.device, dtype=torch.float
         )
-        self.action_count = torch.zeros((self.num_env, self.k), device=self.device)
+        self.action_count = torch.zeros((self.env_num, self.k), device=self.device)
 
     @abstractmethod
     def select_action(self, **kwargs) -> torch.Tensor:
@@ -40,7 +40,7 @@ class __AgentBaseTorch__(ABC):
         if action.dtype != torch.int64:
             raise ValueError("Action tensor must be of type torch.int64")
         
-        action_indices = torch.arange(self.num_env, device=self.device)
+        action_indices = torch.arange(self.env_num, device=self.device)
         self.action_count[action_indices, action] += 1
         alpha = kwargs.get('alpha', None)
         if alpha is not None:

@@ -20,8 +20,8 @@ from .__agent_base__ import __AgentBaseTorch__
 from .epsilon_greedy_action_selection import epsilonGreedyActionSelectionTorch
 
 class EpsilonAgentTorch(__AgentBaseTorch__):
-    def __init__(self, k=10, num_env=10, initial=0, epsilon=0.1, device='cuda'):
-        super().__init__(k=k, num_env=num_env, initial=initial, device=device)
+    def __init__(self, k=10, env_num=10, initial=0, epsilon=0.1, device='cuda'):
+        super().__init__(k=k, env_num=env_num, initial=initial, device=device)
         self.epsilon = epsilon
 
     def select_action(self, **kwargs) -> torch.Tensor:

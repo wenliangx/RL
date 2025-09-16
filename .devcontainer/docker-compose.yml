@@ -1,0 +1,14 @@
+services:
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: python:3.11-user
+    container_name: python_container
+    volumes:
+      - ..:/ws
+    working_dir: /ws
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    network_mode: host

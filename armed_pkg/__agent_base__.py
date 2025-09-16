@@ -39,8 +39,6 @@ class __AgentBaseTorch__(ABC):
     def update_estimation(self, action: torch.Tensor, reward: torch.Tensor, **kwargs) -> None:
         if action.dtype != torch.int64:
             raise ValueError("Action tensor must be of type torch.int64")
-        if action.dim() != 1 or action.size(0) != self.num_env:
-            raise ValueError(f"Action tensor must be of shape ({self.num_env},)")
         
         action_indices = torch.arange(self.num_env, device=self.device)
         self.action_count[action_indices, action] += 1

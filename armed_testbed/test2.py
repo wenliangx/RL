@@ -1,5 +1,5 @@
 import sys
-sys.path.append('..')
+sys.path.append('/ws')
 import armed_pkg as armed
 import numpy as np
 

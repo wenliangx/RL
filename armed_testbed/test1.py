@@ -34,10 +34,10 @@ def main():
             all_rewards[test, :, i], all_best_options[test, :, i] = estimate(num_episodes=num_episodes, k=k, epsilon=epsilon, initial=0)
 
     average_rewards = np.mean(all_rewards, axis=0)
-    armed.drawAverageRewards(average_rewards, num_episodes, ['epsilon=0.1', 'epsilon=0.01', 'epsilon=0.0'], xlim=(0,1000), ylim=(0,1.5))
+    armed.drawAverageRewards(average_rewards, num_episodes, ['epsilon=0.1', 'epsilon=0.01', 'epsilon=0.0'], xlim=(0,1000), ylim=(0,1.5), save_path='average_reward_test1.png')
 
     average_best_options = np.mean(all_best_options, axis=0) * 100
-    armed.drawAverageBestOption(average_best_options, num_episodes, ['epsilon=0.1', 'epsilon=0.01', 'epsilon=0.0'], xlim=(0,1000), ylim=(0,100))
+    armed.drawAverageBestOption(average_best_options, num_episodes, ['epsilon=0.1', 'epsilon=0.01', 'epsilon=0.0'], xlim=(0,1000), ylim=(0,100), save_path='average_best_option_test1.png')
 
 if __name__ == "__main__":
     main()

@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def drawAverageRewards(rewards: np.ndarray, num_episodes: int, labels: list, xlim=None, ylim=None, save_path='average_reward.png'):
+    if np.ndim(rewards) == 1:
+        rewards = rewards.reshape(-1, 1)
     if rewards.shape[1] != len(labels):
         raise ValueError("Input lists must have the same length.")
     for i, label in enumerate(labels):
@@ -18,6 +20,8 @@ def drawAverageRewards(rewards: np.ndarray, num_episodes: int, labels: list, xli
     plt.close()
 
 def drawAverageBestOption(best_options: np.ndarray, num_episodes: int, labels: list, xlim=None, ylim=None, save_path='average_best_option.png'):
+    if np.ndim(best_options) == 1:
+        best_options = best_options.reshape(-1, 1)
     if best_options.shape[1] != len(labels):
         raise ValueError("Input lists must have the same length.")
     for i, label in enumerate(labels):

@@ -3,12 +3,27 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: python:3.11-user
-    container_name: python_container
+    image: pytorch:2.8.0-user
+    runtime: nvidia 
+    container_name: pytorch_container
     volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev:/dev
       - ..:/ws
+    environment:
+      - DISPLAY=:0
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all       # 等价于 --gpus all
+      - NVIDIA_DRIVER_CAPABILITIES=all   # 启用 graphics, utility, compute, video
     working_dir: /ws
     command: /bin/bash
     stdin_open: true
     tty: true
     network_mode: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+              count: all
+              driver: nvidia

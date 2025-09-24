@@ -27,3 +27,9 @@ class Env:
             return [{'prob': 1.0, 'next_state': next_state, 'reward': 0}]
         else:
             return [{'prob': 1.0, 'next_state': state, 'reward': -1}]
+        
+    def index_to_state(self, index):
+        return Cell(index // self.grid_size[1], index % self.grid_size[1])
+
+    def state_to_index(self, state):
+        return state.x * self.grid_size[1] + state.y

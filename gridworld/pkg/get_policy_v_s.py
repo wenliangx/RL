@@ -1,4 +1,4 @@
-from .env import Env, SpecialCellPair
+from .env import Env
 from .cell import Cell
 import numpy as np
 from .actions import actions

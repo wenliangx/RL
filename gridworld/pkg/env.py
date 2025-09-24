@@ -17,7 +17,7 @@ class Env:
     def reward_set(self):
         return set(self.special_reward + [0, -1])
 
-    def get_p(self, state: Cell, action: Action):
+    def __get_p__(self, state: Cell, action: Action):
         for pair in self.special_cell_pair_list:
             if state == pair.start:
                 return [{'prob': 1.0, 'next_state': pair.terminal, 'reward': pair.reward}]
@@ -28,8 +28,17 @@ class Env:
         else:
             return [{'prob': 1.0, 'next_state': state, 'reward': -1}]
         
+    def get_p(self, state: Cell | int, action: Action):
+        if isinstance(state, int):
+            state = self.index_to_state(state)
+        return self.__get_p__(state, action)
+        
     def index_to_state(self, index):
         return Cell(index // self.grid_size[1], index % self.grid_size[1])
 
     def state_to_index(self, state):
         return state.x * self.grid_size[1] + state.y
+
+    @property
+    def state_num(self):
+        return self.grid_size[0] * self.grid_size[1]

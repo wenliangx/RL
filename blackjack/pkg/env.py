@@ -213,20 +213,19 @@ class EnvTorch:
         returns = [reward.clone() for _ in range(i)]
         V = [[] for _ in range(200)]
         for t in range(i-2, -1, -1):
-            m = torch.where(self.stop_time>t, torch.ones(size=self.stop_time.size(), device=self.device, dtype=torch.int), torch.zeros(size=self.stop_time.size(), device=self.device, dtype=torch.int))
-            returns[t] = returns[t+1] * m * self.gamma
+            m = torch.where(self.stop_time>t, self.gamma * torch.ones(size=self.stop_time.size(), device=self.device, dtype=torch.int), torch.ones(size=self.stop_time.size(), device=self.device, dtype=torch.int))
+            returns[t] = returns[t+1] * m
         for t in range(i):
             player_sum = self.player_sum[t].to("cpu")
-            dealer_card = self.dealer_card[0].to("cpu")
+            dealer_card = torch.where(self.dealer_card[0] > 10, torch.full_like(self.dealer_card[0], 1), self.dealer_card[0]).to("cpu")
             usable_ace = self.usable_ace[t].to("cpu")
             for j in range(self.env_num):
                 if self.stop_time[j] >= t + 1:
                     if(player_sum[j] >= 12 and player_sum[j] <= 21):
                         try:
-                            V[int(player_sum[j]-12)+10*int(dealer_card[j]-2)+100*int(usable_ace[j])].append(returns[t][j].item())
+                            V[int(player_sum[j]-12)+10*int(dealer_card[j]-1)+100*int(usable_ace[j])].append(returns[t][j].item())
                         except:
                             print(player_sum[j], dealer_card[j], usable_ace[j], returns[t][j])
         values = [sum(v)/len(v) if len(v)>0 else 0.0 for v in V]
         return values
     
-        return self.player_sum, self.dealer_card, self.usable_ace, reward
